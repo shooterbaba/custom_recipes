@@ -1,5 +1,5 @@
 # This is default setup recipe for java app
-
+include_recipe 'opsworks_java::tomcat_service'
 # Install nfs client package for remote directory mount
 package 'nfs-common'
 
@@ -14,4 +14,5 @@ template "/var/lib/tomcat7/conf/server.xml" do
   owner "root"
   group "root"
   mode 0644
+  notifies :restart, 'service[tomcat7]', :immediately
 end
