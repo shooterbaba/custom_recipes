@@ -14,5 +14,5 @@ template "/var/lib/tomcat7/conf/server.xml" do
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, 'service[tomcat7]', :immediately
+  notifies :restart, 'service[tomcat]', :immediately
 end
