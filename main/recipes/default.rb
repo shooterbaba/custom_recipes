@@ -8,7 +8,9 @@ execute 'ls -ld /Users/dcameron/persistence || mkdir -p /Users/dcameron/persiste
 execute 'chown tomcat7:tomcat7 /Users/dcameron/persistence'
 
 # Mount the NFS directory to this location
-execute "mount | grep persistence > /dev/null || mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).#{node[:nfs_endpoint]}:/ /Users/dcameron/persistence"
+if not node[:nfs_endpoint].nil?
+   execute "mount | grep persistence > /dev/null || mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).#{node[:nfs_endpoint]}:/ /Users/dcameron/persistence"
+end
 
 template "/var/lib/tomcat7/conf/server.xml" do
   source "server.xml.erb"
